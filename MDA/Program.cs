@@ -15,11 +15,11 @@ namespace MDA
 
             while (true)
             {
-                var communication = new Communication();
+                var answer = new Answer();
 
-                communication.MainMenu();
+                Communication.MainMenu();
 
-                if (!communication.ChoiceMode())
+                if (!Communication.ChoiceMode(answer))
                 {
                     continue;
                 };
@@ -28,32 +28,32 @@ namespace MDA
 
                 stopWatch.Start(); //Замерим потраченное время на бронирование/сняти брони
 
-                switch (communication.Mode)
+                switch (answer.Mode)
                 {
                     case Mode.BookAsync:      
                     case Mode.BookSync:
-                        communication.SetCountOfPersons();    
+                        Communication.SetCountOfPersons(answer);    
                         break;
 
                     case Mode.UnBookAsync: 
-                    case Mode.UnBookSync: 
-                        communication.SetIdTable();
+                    case Mode.UnBookSync:
+                        Communication.SetIdTable(answer);
                         break;
                 }
 
-                switch (communication.Mode)
+                switch (answer.Mode)
                 {
                     case Mode.BookAsync:
-                        rest.BookFreeTableAsync(communication); //Забронируем с уведомлением по СМС
+                        rest.BookFreeTableAsync(answer); //Забронируем с уведомлением по СМС
                         break;
                     case Mode.BookSync:
-                        rest.BookFreeTable(communication);//Забронируем с уведомлением по звонку
+                        rest.BookFreeTable(answer);//Забронируем с уведомлением по звонку
                         break;
                     case Mode.UnBookAsync:
-                        rest.UnBookTableAsync(communication);//Снимем бронь с уведомлением по СМС
+                        rest.UnBookTableAsync(answer);//Снимем бронь с уведомлением по СМС
                         break;
                     case Mode.UnBookSync: //Снимем бронь по звонку
-                        rest.UnBookTable(communication);
+                        rest.UnBookTable(answer);
                         break;
                 }
 

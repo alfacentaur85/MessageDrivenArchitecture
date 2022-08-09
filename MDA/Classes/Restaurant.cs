@@ -9,11 +9,14 @@ using MDA.Classes;
 
 namespace MDA.Classes
 {
+    /// <summary>
+    /// Ресторан
+    /// </summary>
     public class Restaurant
     {
-        private readonly uint _countOfTables = 10;
+        private readonly ushort _countOfTables = 10;
 
-        private readonly List<Table> _tables = new List<Table>();
+        private readonly List<Table> _tables = new ();
 
         public Restaurant()
         {
@@ -23,11 +26,11 @@ namespace MDA.Classes
             }
         }
 
-        public void BookFreeTable(Communication communication) //синхронное бронирование
+        public void BookFreeTable(Answer answer) //синхронное бронирование
         {
             Communication.HelloBookSync();
 
-            var table = _tables.FirstOrDefault(t => t.SeatsCount >= communication.CountOfPersons
+            var table = _tables.FirstOrDefault(t => t.SeatsCount >= answer.CountOfPersons
                                                  && t.State == State.Free);
 
             table?.SetState(State.Booked);
@@ -37,11 +40,11 @@ namespace MDA.Classes
             Communication.ResultBookSync(table);
         }
 
-        public void UnBookTable(Communication communication) //синхронное снятие бронирование
+        public void UnBookTable(Answer answer) //синхронное снятие бронирование
         {
             Communication.HelloUnBookSync();
 
-            var table = _tables.FirstOrDefault(t => t.Id == communication.IdTable
+            var table = _tables.FirstOrDefault(t => t.Id == answer.IdTable
                                                  && t.State == State.Booked);
 
             table?.SetState(State.Free);
@@ -49,12 +52,12 @@ namespace MDA.Classes
             Communication.ResultUnBookSync(table);
         }
 
-        public void BookFreeTableAsync(Communication communication) //асинхронное бронирование
+        public void BookFreeTableAsync(Answer answer) //асинхронное бронирование
         {
             Communication.HelloBookAsync();
 
 
-            var table = _tables.FirstOrDefault(t => t.SeatsCount >= communication.CountOfPersons
+            var table = _tables.FirstOrDefault(t => t.SeatsCount >= answer.CountOfPersons
                                                  && t.State == State.Free);
 
             table?.SetState(State.Booked);
@@ -64,11 +67,11 @@ namespace MDA.Classes
 
         }
 
-        public void UnBookTableAsync(Communication communication) //асинхронное снятие брони
+        public void UnBookTableAsync(Answer answer) //асинхронное снятие брони
         {
             Communication.HelloUnBookAsync();
 
-            var table = _tables.FirstOrDefault(t => t.Id == communication.IdTable
+            var table = _tables.FirstOrDefault(t => t.Id == answer.IdTable
                                                  && t.State == State.Booked);
 
             table?.SetState(State.Free);

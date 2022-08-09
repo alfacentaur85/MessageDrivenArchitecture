@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 
 namespace MDA.Classes
 {
+    /// <summary>
+    /// Столик
+    /// </summary>
     public class Table
     {
         private readonly int _minSeats = 2;
 
         private readonly int _maxSeats = 6;
 
-        private readonly int periodTimer = 20000;
+        private readonly int _periodTimer = 20000;
 
-        private readonly int periodInfinite = 20000;
+        private readonly int _periodInfinite = -1;
 
         private readonly Timer _timer;
 
@@ -34,7 +37,7 @@ namespace MDA.Classes
             // устанавливаем метод обратного вызова
             TimerCallback tm = new TimerCallback(UnBookTableAutoAsync);
             // создаем таймер пока не выполняющийся
-            _timer = new Timer(tm, null, 0, periodInfinite);
+            _timer = new Timer(tm, null, 0, _periodInfinite);
                       
         }
         
@@ -48,11 +51,11 @@ namespace MDA.Classes
             switch (State)
             {
                 case State.Free:
-                    _timer.Change(0, periodInfinite);
+                    _timer.Change(0, _periodInfinite);
                     break;
 
                 case State.Booked:
-                    _timer.Change(periodTimer, periodTimer); //запускаем таймер первый раз через periodTimer мс с периодом periodTimer
+                    _timer.Change(_periodTimer, _periodTimer); //запускаем таймер первый раз через periodTimer мс с периодом periodTimer
                     break;
             }
 

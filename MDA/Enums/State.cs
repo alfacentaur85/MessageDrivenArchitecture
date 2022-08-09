@@ -6,10 +6,14 @@ namespace MDA.Enums
 {
     public enum State
     {
-        //Стол свободен
+        /// <summary>
+        /// Стол свободен
+        /// </summary>
         Free = 0,
 
-        //Стол занят
+        /// <summary>
+        /// Стол занят
+        /// </summary>
         Booked = 1
     }
 }

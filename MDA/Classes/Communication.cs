@@ -8,20 +8,14 @@ using System.Threading;
 
 namespace MDA.Classes
 {
-    public class Communication
+    /// <summary>
+    /// Коммуникации с клиентом
+    /// </summary>
+    public static class Communication
     {
-        public Mode Mode  { get; private set; }
+        private static readonly ushort _multiplierDelay = 5;
 
-        public int IdTable { get; private set; }
-
-        public uint CountOfPersons { get; private set; }
-
-        public Communication()
-        {
-
-        }
-
-        public void MainMenu()
+        public static void MainMenu()
         {
             Console.WriteLine($"Привет! Желаете забронировать столик?" +
                 $"\n{(int)Mode.BookAsync} - мы уведомим вас по СМС (асинхронно)" +
@@ -30,7 +24,7 @@ namespace MDA.Classes
                 $"\n{(int)Mode.UnBookSync} - Снять бронь по звонку (синхронно)");  //приглашаем ко вводу
         }
 
-        public bool ChoiceMode()
+        public static bool ChoiceMode(Answer answer)
         {
             if (int.TryParse(Console.ReadLine(), out var choice))
             {
@@ -38,7 +32,7 @@ namespace MDA.Classes
                 {
                     if ((int)e == choice)
                     {
-                        Mode = (Mode)choice;
+                        answer.Mode = (Mode)choice;
                         return true;
                     }
                 }
@@ -47,14 +41,14 @@ namespace MDA.Classes
             return false;
         }
 
-        public bool SetIdTable()
+        public static bool SetIdTable(Answer answer)
         {
             while (true)
             {
                 Console.WriteLine("Пожалуйста, введите номер столика - целое число");
                 if (int.TryParse(Console.ReadLine(), out var choice))
                 {
-                    IdTable = choice;
+                    answer.IdTable = choice;
                     break;
                 }
                 continue;           
@@ -62,14 +56,14 @@ namespace MDA.Classes
             return true;
         }
 
-        public bool SetCountOfPersons()
+        public static bool SetCountOfPersons(Answer answer)
         {
             while (true)
             {
                 Console.WriteLine("Пожалуйста, введите количество гостей - целое положительное число");
                 if (uint.TryParse(Console.ReadLine(), out var choice))
                 {
-                    CountOfPersons = choice;
+                    answer.CountOfPersons = choice;
                     break;
                 }
                 continue;
@@ -84,7 +78,7 @@ namespace MDA.Classes
 
         public static void ResultBookSync(Table table)
         {
-            Thread.Sleep(1000 * 5); //У нас нерасторопные менеджеры. 5 секунд они находятся в поиске стола
+            Thread.Sleep(1000 * _multiplierDelay); //У нас нерасторопные менеджеры. 5 секунд они находятся в поиске стола
 
             Console.WriteLine(table is null
                ? "К сожалению, сейчас все столики заняты"
@@ -105,7 +99,7 @@ namespace MDA.Classes
         {
             Task.Run(async () =>
             {
-                await Task.Delay(1000 * 5); //У нас нерасторопные менеджеры. 5 секунд они находятся в поиске стола
+                await Task.Delay(1000 * _multiplierDelay); //У нас нерасторопные менеджеры. 5 секунд они находятся в поиске стола
 
                 Console.WriteLine(table is null
                     ? "УВЕДОМЛЕНИЕ: К сожалению, сейчас все столики заняты"
@@ -120,7 +114,7 @@ namespace MDA.Classes
 
         public static void ResultUnBookSync(Table table)
         {
-            Thread.Sleep(1000 * 5); //У нас нерасторопные менеджеры. 5 секунд они снимают бронь
+            Thread.Sleep(1000 * _multiplierDelay); //У нас нерасторопные менеджеры. 5 секунд они снимают бронь
 
             Console.WriteLine(table is null
                 ? $"Столик {table.Id} не был забронирован"
@@ -142,7 +136,7 @@ namespace MDA.Classes
             Task.Run(async () =>
             {
 
-                await Task.Delay(1000 * 5); //У нас нерасторопные менеджеры. 5 секунд они находятся в поиске стола
+                await Task.Delay(1000 * _multiplierDelay); //У нас нерасторопные менеджеры. 5 секунд они находятся в поиске стола
 
                 Console.WriteLine(table is null
                     ? $"УВЕДОМЛЕНИЕ: Столик {table.Id} не был забронирован"
