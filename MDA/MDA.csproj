@@ -5,4 +5,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MDA.Consumer\MDA.Consumer.csproj" />
+    <ProjectReference Include="..\MDA.Producer\MDA.Producer.csproj" />
+  </ItemGroup>
+
 </Project>

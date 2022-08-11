@@ -6,6 +6,8 @@ using MDA.Enums;
 using System.Threading;
 using System.Threading.Tasks;
 using MDA.Classes;
+using MDA.Consumer;
+using MDA.Producer;
 
 namespace MDA.Classes
 {
@@ -15,6 +17,8 @@ namespace MDA.Classes
     public class Restaurant
     {
         private readonly ushort _countOfTables = 10;
+
+        private readonly RabbitProducer _producer = new RabbitProducer();
 
         private readonly List<Table> _tables = new ();
 
@@ -62,7 +66,7 @@ namespace MDA.Classes
 
             table?.SetState(State.Booked);
 
-            Communication.ResultBookAsync(table);
+            _producer.SendToQueue(Encoding.UTF8.GetBytes(Communication.ResultBookAsync(table)), "Booking");
 
 
         }
@@ -76,7 +80,7 @@ namespace MDA.Classes
 
             table?.SetState(State.Free);
 
-            Communication.ResultUnBookAsync(table);
+            _producer.SendToQueue(Encoding.UTF8.GetBytes(Communication.ResultUnBookAsync(table)), "UnBooking");
 
         }
     }

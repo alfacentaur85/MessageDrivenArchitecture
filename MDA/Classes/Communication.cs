@@ -17,11 +17,14 @@ namespace MDA.Classes
 
         public static void MainMenu()
         {
-            Console.WriteLine($"Привет! Желаете забронировать столик?" +
-                $"\n{(int)Mode.BookAsync} - мы уведомим вас по СМС (асинхронно)" +
-                $"\n{(int)Mode.BookSync} - подождите на линии, мы оповестим (синхронно)" +
-                $"\n{(int)Mode.UnBookAsync} - Снять бронь с уведомлением по СМС (асинхронно)" +
-                $"\n{(int)Mode.UnBookSync} - Снять бронь по звонку (синхронно)");  //приглашаем ко вводу
+            StringBuilder sb = new();
+
+            sb.Append($"Привет! Желаете забронировать столик?");
+            sb.Append($"\n{(int)Mode.BookAsync} - мы уведомим вас по СМС (асинхронно)");
+            sb.Append($"\n{(int)Mode.BookSync} - подождите на линии, мы оповестим (синхронно)");
+            sb.Append($"\n{(int)Mode.UnBookAsync} - Снять бронь с уведомлением по СМС (асинхронно)");
+            sb.Append($"\n{(int)Mode.UnBookSync} - Снять бронь по звонку (синхронно)");
+            Console.WriteLine(sb.ToString());
         }
 
         public static bool ChoiceMode(Answer answer)
@@ -95,16 +98,17 @@ namespace MDA.Classes
             });
         }
 
-        public static void ResultBookAsync(Table table)
+        public static string ResultBookAsync(Table table)
         {
             Task.Run(async () =>
             {
                 await Task.Delay(1000 * _multiplierDelay); //У нас нерасторопные менеджеры. 5 секунд они находятся в поиске стола
-
-                Console.WriteLine(table is null
-                    ? "УВЕДОМЛЕНИЕ: К сожалению, сейчас все столики заняты"
-                    : $"УВЕДОМЛЕНИЕ: Готово. Ваш столик номер {table.Id}");
+              
             });
+
+            return table is null
+                ? "УВЕДОМЛЕНИЕ: К сожалению, сейчас все столики заняты"
+                : $"УВЕДОМЛЕНИЕ: Готово. Ваш столик номер {table.Id}";
         }
 
         public static void HelloUnBookSync()
@@ -131,17 +135,17 @@ namespace MDA.Classes
             });        
         }
 
-        public static void ResultUnBookAsync(Table table)
+        public static string ResultUnBookAsync(Table table)
         {
             Task.Run(async () =>
             {
 
                 await Task.Delay(1000 * _multiplierDelay); //У нас нерасторопные менеджеры. 5 секунд они находятся в поиске стола
 
-                Console.WriteLine(table is null
-                    ? $"УВЕДОМЛЕНИЕ: Столик {table.Id} не был забронирован"
-                    : $"УВЕДОМЛЕНИЕ: Готово. Бронь со столика номер {table.Id} снята");
             });
+            return table is null
+                ? $"УВЕДОМЛЕНИЕ: Столик {table.Id} не был забронирован"
+                : $"УВЕДОМЛЕНИЕ: Готово. Бронь со столика номер {table.Id} снята";
 
         }
 
