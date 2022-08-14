@@ -80,7 +80,7 @@ namespace MDA.Classes
 
             table?.SetState(State.Free);
 
-            _producer.SendToQueue(Encoding.UTF8.GetBytes(Communication.ResultUnBookAsync(table)), "UnBooking");
+            _producer.SendToQueue(Encoding.UTF8.GetBytes(Communication.ResultUnBookAsync(table)), "Booking");
 
         }
     }
