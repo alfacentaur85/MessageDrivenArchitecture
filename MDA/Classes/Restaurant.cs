@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using MDA.Enums;
-using System.Threading;
-using System.Threading.Tasks;
-using MDA.Classes;
-using MDA.Consumer;
+using MDA.Restaurant.Booking.Enums;
 using MDA.Producer;
+using System.Threading.Tasks;
 
-namespace MDA.Classes
+namespace MDA.Restaurant.Booking.Classes
 {
     /// <summary>
     /// Ресторан
@@ -56,7 +52,7 @@ namespace MDA.Classes
             Communication.ResultUnBookSync(table);
         }
 
-        public void BookFreeTableAsync(Answer answer) //асинхронное бронирование
+        public async Task<bool?> BookFreeTableAsync(Answer answer) //асинхронное бронирование
         {
             Communication.HelloBookAsync();
 
@@ -64,10 +60,9 @@ namespace MDA.Classes
             var table = _tables.FirstOrDefault(t => t.SeatsCount >= answer.CountOfPersons
                                                  && t.State == State.Free);
 
-            table?.SetState(State.Booked);
+            await Task.Delay(1000 * 5); //у нас нерасторопные менеджеры, 5 секунд они находятся в поисках стола
 
-            _producer.SendToQueue(Encoding.UTF8.GetBytes(Communication.ResultBookAsync(table)), "Booking");
-
+            return table?.SetState(State.Booked);
 
         }
 

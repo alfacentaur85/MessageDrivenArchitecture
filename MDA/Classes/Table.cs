@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MDA.Enums;
+using MDA.Restaurant.Booking.Enums;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MDA.Classes
+namespace MDA.Restaurant.Booking.Classes
 {
     /// <summary>
     /// Столик
@@ -43,23 +41,26 @@ namespace MDA.Classes
         
         public bool SetState(State state)
         {
-            if (state == State)
-                return false;
-
-            State = state;
-
-            switch (State)
+            lock (_lock)
             {
-                case State.Free:
-                    _timer.Change(0, _periodInfinite);
-                    break;
+                if (state == State)
+                    return false;
 
-                case State.Booked:
-                    _timer.Change(_periodTimer, _periodTimer); //запускаем таймер первый раз через periodTimer мс с периодом periodTimer
-                    break;
+                State = state;
+
+                switch (State)
+                {
+                    case State.Free:
+                        _timer.Change(0, _periodInfinite);
+                        break;
+
+                    case State.Booked:
+                        _timer.Change(_periodTimer, _periodTimer); //запускаем таймер первый раз через periodTimer мс с периодом periodTimer
+                        break;
+                }
+
+                return true;
             }
-
-            return true;
         }
 
         private async void UnBookTableAutoAsync(object obj)
@@ -72,6 +73,8 @@ namespace MDA.Classes
                 }
             });
         }
+
+        private readonly object _lock = new object();
 
 
     }

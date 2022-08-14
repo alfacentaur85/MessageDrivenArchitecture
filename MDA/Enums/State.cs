@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MDA.Enums
+﻿
+namespace MDA.Restaurant.Booking.Enums
 {
     public enum State
     {

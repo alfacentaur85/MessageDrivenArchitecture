@@ -1,72 +1,64 @@
 ﻿using System;
-using MDA.Classes;
-using System.Diagnostics;
-using MDA.Enums;
+using MDA.Restaurant.Booking.Enums;
+using MassTransit;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System.Security.Authentication;
 
-namespace MDA
+namespace MDA.Restaurant.Booking.Classes
 {
     class Program
     {
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-
-            var rest = new Restaurant();
-
-            while (true)
+            var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
-                var answer = new Answer();
-
-                Communication.MainMenu();
-
-                if (!Communication.ChoiceMode(answer))
+                cfg.Host("beaver-01.rmq.cloudamqp.com", 5671, "xqchhxvp", h =>
                 {
-                    continue;
-                };
+                    h.Username("xqchhxvp");
+                    h.Password("t57uK3jDXaJQgGDgm7OMDuoCAKDIXc9y");
 
-                var stopWatch = new Stopwatch();
+                    h.UseSsl(s =>
+                    {
+                        s.Protocol = SslProtocols.Tls12;
+                    });
+                });
+            });
+            
 
-                stopWatch.Start(); //Замерим потраченное время на бронирование/сняти брони
-
-                switch (answer.Mode)
-                {
-                    case Mode.BookAsync:      
-                    case Mode.BookSync:
-                        Communication.SetCountOfPersons(answer);    
-                        break;
-
-                    case Mode.UnBookAsync: 
-                    case Mode.UnBookSync:
-                        Communication.SetIdTable(answer);
-                        break;
-                }
-
-                switch (answer.Mode)
-                {
-                    case Mode.BookAsync:
-                        rest.BookFreeTableAsync(answer); //Забронируем с уведомлением по СМС
-                        break;
-                    case Mode.BookSync:
-                        rest.BookFreeTable(answer);//Забронируем с уведомлением по звонку
-                        break;
-                    case Mode.UnBookAsync:
-                        rest.UnBookTableAsync(answer);//Снимем бронь с уведомлением по СМС
-                        break;
-                    case Mode.UnBookSync: //Снимем бронь по звонку
-                        rest.UnBookTable(answer);
-                        break;
-                }
-
-
-                Console.WriteLine("Спасибо за Ваше обращение");
-
-                stopWatch.Stop();
-
-                var ts = stopWatch.Elapsed;
-
-                Console.WriteLine($"{ts.Seconds}:{ts.Milliseconds}");
-            }
-           
+            CreateHostBuilder(args).Build().Run();
+              
         }
+
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddMassTransit(x =>
+                    {
+                        x.AddBus(context => Bus.Factory.CreateUsingRabbitMq(cfg =>
+                        {
+                            cfg.Host("beaver-01.rmq.cloudamqp.com", 5671, "xqchhxvp", h =>
+                            {
+                                h.Username("xqchhxvp");
+                                h.Password("t57uK3jDXaJQgGDgm7OMDuoCAKDIXc9y");
+
+                                h.UseSsl(s =>
+                                {
+                                    s.Protocol = SslProtocols.Tls12;
+                                });
+                            });                          
+                        })); 
+
+                    });
+                    services.AddMassTransitHostedService(true);
+
+                    services.AddTransient<Restaurant>();
+
+                    services.AddTransient<Answer>();
+
+                    services.AddHostedService<Worker>();
+                });
     }
 }

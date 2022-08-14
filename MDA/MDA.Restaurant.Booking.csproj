@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,8 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.0.6" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MDA.Consumer\MDA.Consumer.csproj" />
     <ProjectReference Include="..\MDA.Producer\MDA.Producer.csproj" />
+    <ProjectReference Include="..\MDA.Restaurant.Messages\MDA.Restaurant.Messages.csproj" />
   </ItemGroup>
 
 </Project>

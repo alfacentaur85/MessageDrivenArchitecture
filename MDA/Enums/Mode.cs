@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MDA.Enums
+﻿namespace MDA.Restaurant.Booking.Enums
 {
     public enum Mode
     {

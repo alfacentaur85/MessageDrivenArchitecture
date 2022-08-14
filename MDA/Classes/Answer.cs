@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MDA.Enums;
+﻿using MDA.Restaurant.Booking.Enums;
 
-namespace MDA.Classes
+namespace MDA.Restaurant.Booking.Classes
 {
     /// <summary>
     /// Ответы в меню
