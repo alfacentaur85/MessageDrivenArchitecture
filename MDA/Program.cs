@@ -43,7 +43,6 @@ namespace MDA.Restaurant.Booking.Classes
                             {
                                 h.Username("xqchhxvp");
                                 h.Password("t57uK3jDXaJQgGDgm7OMDuoCAKDIXc9y");
-
                                 h.UseSsl(s =>
                                 {
                                     s.Protocol = SslProtocols.Tls12;
