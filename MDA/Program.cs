@@ -50,8 +50,8 @@ namespace MDA.Restaurant.Booking.Classes
                                 });
                             });                          
                         })); 
-
                     });
+
                     services.AddMassTransitHostedService(true);
 
                     services.AddTransient<Restaurant>();
