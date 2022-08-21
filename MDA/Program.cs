@@ -48,14 +48,35 @@ namespace MDA.Restaurant.Booking.Classes
                                 {
                                     s.Protocol = SslProtocols.Tls12;
                                 });
-                            });                          
+                            });
+
+                            cfg.UseInMemoryOutbox();
+
+                            cfg.UseDelayedMessageScheduler();
+
+                            cfg.ConfigureEndpoints(context);
+
                         }));
 
-                        x.AddConsumer<RestaurantBookingRequestConsumer>()
-                           .Endpoint(e =>
-                           {
-                               e.Temporary = true;
-                           });
+                        x.AddConsumer<RestaurantBookingRequestConsumer>(configurator =>
+                        {
+                            configurator.UseScheduledRedelivery(r =>
+                            {
+                                r.Intervals(TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(20),
+                                    TimeSpan.FromSeconds(30));
+                            });
+                            configurator.UseMessageRetry(
+                                r =>
+                                {
+                                    r.Incremental(3, TimeSpan.FromSeconds(1),
+                                        TimeSpan.FromSeconds(2));
+                                }
+                            );
+                        })
+                         .Endpoint(e =>
+                         {
+                             e.Temporary = true;
+                         });
 
                         x.AddConsumer<BookingRequestFaultConsumer>()
                             .Endpoint(e =>
@@ -68,6 +89,7 @@ namespace MDA.Restaurant.Booking.Classes
                             .InMemoryRepository();
 
                         x.AddDelayedMessageScheduler();
+
 
                     });
 

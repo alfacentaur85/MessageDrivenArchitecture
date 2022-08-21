@@ -15,33 +15,37 @@ namespace MDA.Restaurant.Kitchen
             CreateHostBuilder(args).Build().Run();
         }
 
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
+
                     services.AddMassTransit(x =>
                     {
-                        x.AddConsumer<KitchenTableBookedConsumer>();
-
                         x.AddBus(context => Bus.Factory.CreateUsingRabbitMq(cfg =>
                         {
                             cfg.Host("beaver-01.rmq.cloudamqp.com", 5671, "xqchhxvp", h =>
                             {
                                 h.Username("xqchhxvp");
                                 h.Password("t57uK3jDXaJQgGDgm7OMDuoCAKDIXc9y");
-
                                 h.UseSsl(s =>
                                 {
                                     s.Protocol = SslProtocols.Tls12;
                                 });
                             });
-                        }));
 
+                            cfg.UseInMemoryOutbox();
+
+                            cfg.UseDelayedMessageScheduler();
+
+                            cfg.ConfigureEndpoints(context);
+
+                        }));
                     });
-                   
+
                     services.AddSingleton<Manager>();
 
-                    services.AddMassTransitHostedService(true);
                 });
     }
 }

@@ -3,6 +3,7 @@ using MDA.Restaurant.Messages.Enums;
 
 namespace MDA.Restaurant.Messages.Interfaces
 {
+   
     public interface ITableBooked
     {
         public Guid OrderId { get; }
@@ -12,5 +13,7 @@ namespace MDA.Restaurant.Messages.Interfaces
         public Dish? PreOrder { get; }
 
         public bool Success { get; }
+
+        public DateTime CreationDate { get; }
     }
 }
