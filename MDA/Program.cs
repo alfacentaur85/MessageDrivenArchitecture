@@ -4,6 +4,7 @@ using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Security.Authentication;
+using MDA.Restaurant.Booking.Classes.Consumers;
 
 namespace MDA.Restaurant.Booking.Classes
 {
@@ -48,10 +49,31 @@ namespace MDA.Restaurant.Booking.Classes
                                     s.Protocol = SslProtocols.Tls12;
                                 });
                             });                          
-                        })); 
+                        }));
+
+                        x.AddConsumer<RestaurantBookingRequestConsumer>()
+                           .Endpoint(e =>
+                           {
+                               e.Temporary = true;
+                           });
+
+                        x.AddConsumer<BookingRequestFaultConsumer>()
+                            .Endpoint(e =>
+                            {
+                                e.Temporary = true;
+                            });
+
+                        x.AddSagaStateMachine<RestaurantBookingSaga, RestaurantBooking>()
+                            .Endpoint(e => e.Temporary = true)
+                            .InMemoryRepository();
+
+                        x.AddDelayedMessageScheduler();
+
                     });
 
-                    services.AddMassTransitHostedService(true);
+                    services.AddTransient<RestaurantBooking>();
+
+                    services.AddTransient<RestaurantBookingSaga>();
 
                     services.AddTransient<Restaurant>();
 
