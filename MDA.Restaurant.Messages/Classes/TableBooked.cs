@@ -19,5 +19,6 @@ namespace MDA.Restaurant.Messages.Classes
         public Guid ClientId { get; }
         public Dish? PreOrder { get; }
         public bool Success { get; }
+        public DateTime CreationDate { get; }
     }
 }
