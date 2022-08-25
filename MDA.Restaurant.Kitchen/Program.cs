@@ -42,6 +42,11 @@ namespace MDA.Restaurant.Kitchen
                             cfg.ConfigureEndpoints(context);
 
                         }));
+
+                        x.AddConsumer<KitchenBookingRequestFaultConsumer>();
+
+                        x.AddDelayedMessageScheduler();
+
                     });
 
                     services.AddSingleton<Manager>();
