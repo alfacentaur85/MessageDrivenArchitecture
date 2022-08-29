@@ -34,12 +34,12 @@ namespace MDA.Restaurant.Booking.Classes
             //         x.CorrelateById(m => m.Message.Message.OrderId)
             //             .SelectId(m => m.Message.Message.OrderId));
 
-            // Schedule(() => BookingExpired,
-            //     x => x.ExpirationId, x =>
-            // {
-            //     x.Delay = TimeSpan.FromSeconds(5);
-            //     x.Received = e => e.CorrelateById(context => context.Message.OrderId);
-            // });
+            Schedule(() => BookingExpired,
+                x => x.ExpirationId, x =>
+                {
+                    x.Delay = TimeSpan.FromSeconds(5);
+                    x.Received = e => e.CorrelateById(context => context.Message.OrderId);
+                });
 
             Initially(
                 When(BookingRequested)
@@ -48,37 +48,34 @@ namespace MDA.Restaurant.Booking.Classes
                         context.Instance.CorrelationId = context.Data.OrderId;
                         context.Instance.OrderId = context.Data.OrderId;
                         context.Instance.ClientId = context.Data.ClientId;
-                        Console.WriteLine("Saga: " + context.Data.CreationDate);
                     })
-                    // .Schedule(BookingExpired, 
-                    //     context => new BookingExpire (context.Instance),
-                    //     context => TimeSpan.FromSeconds(100))
+                    .Schedule(BookingExpired,
+                        context => new BookingExpire(context.Instance),
+                        context => TimeSpan.FromSeconds(1))
                     .TransitionTo(AwaitingBookingApproved)
             );
 
+
             During(AwaitingBookingApproved,
                 When(BookingApproved)
-                    // .Unschedule(BookingExpired)
+                    .Unschedule(BookingExpired)
                     .Publish(context =>
-                        (INotify)new Notify(context.Instance.OrderId,
-                            context.Instance.ClientId,
-                            $"Стол успешно забронирован"))
+                        (INotify)new Notify(context.Instance.OrderId, context.Instance.ClientId,
+                            "Стол успешно забронирован"))
+                    .Finalize(),
+
+                When(BookingExpired.Received)
+                    .Then(context =>
+                    {
+                        Console.WriteLine("EXPIRED");
+                    })
+                    .Publish(context => (INotify)new Notify(context.Message.OrderId, context.Message.OrderId, "asdasd"))
                     .Finalize()
-
-            // When(BookingRequestFault)
-            //     .Then(context => Console.WriteLine($"Ошибочка вышла!"))
-            //     .Publish(context => (INotify) new Notify(context.Instance.OrderId,
-            //         context.Instance.ClientId,
-            //         $"Приносим извинения, стол забронировать не получилось."))
-            //     .Finalize(),
-
-            // When(BookingExpired.Received)
-            //     .Then(context => Console.WriteLine($"Отмена заказа {context.Instance.OrderId}"))
-            //     .Finalize()
             );
 
             SetCompletedWhenFinalized();
         }
+
         public State AwaitingBookingApproved { get; private set; }
         public Event<IBookingRequest> BookingRequested { get; private set; }
         public Event<ITableBooked> TableBooked { get; private set; }
@@ -86,7 +83,7 @@ namespace MDA.Restaurant.Booking.Classes
 
         //      public Event<Fault<IBookingRequest>> BookingRequestFault { get; private set; }
 
-        // public Schedule<RestaurantBooking, IBookingExpire> BookingExpired { get; private set; }
+        public Schedule<RestaurantBooking, IBookingExpire> BookingExpired { get; private set; }
         public Event BookingApproved { get; private set; }
     }
 }
