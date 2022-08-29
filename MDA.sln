@@ -9,11 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDA.Consumer", "MDA.Consume
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDA.Producer", "MDA.Producer\MDA.Producer.csproj", "{5E57F0EA-823C-40E3-9D73-4E1DAD4AF3F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDA.Restaurant.Messages", "MDA.Restaurant.Messages\MDA.Restaurant.Messages.csproj", "{283926DA-CB53-45FA-A564-9A17871DA80F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDA.Restaurant.Messages", "MDA.Restaurant.Messages\MDA.Restaurant.Messages.csproj", "{283926DA-CB53-45FA-A564-9A17871DA80F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDA.Restaurant.Notification", "MDA.Restaurant.Notification\MDA.Restaurant.Notification.csproj", "{E5F4C596-D2B9-41D7-9705-DDF39E3A323C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDA.Restaurant.Notification", "MDA.Restaurant.Notification\MDA.Restaurant.Notification.csproj", "{E5F4C596-D2B9-41D7-9705-DDF39E3A323C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDA.Restaurant.Kitchen", "MDA.Restaurant.Kitchen\MDA.Restaurant.Kitchen.csproj", "{EDE3B060-DDD8-4F0D-9421-6066002E5E6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDA.Restaurant.Kitchen", "MDA.Restaurant.Kitchen\MDA.Restaurant.Kitchen.csproj", "{EDE3B060-DDD8-4F0D-9421-6066002E5E6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDA.Restaurant.Tests", "MDA.Restaurant.Tests\MDA.Restaurant.Tests.csproj", "{535C9FDA-CC5A-4515-B101-BDDB165D931D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{EDE3B060-DDD8-4F0D-9421-6066002E5E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDE3B060-DDD8-4F0D-9421-6066002E5E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDE3B060-DDD8-4F0D-9421-6066002E5E6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{535C9FDA-CC5A-4515-B101-BDDB165D931D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{535C9FDA-CC5A-4515-B101-BDDB165D931D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{535C9FDA-CC5A-4515-B101-BDDB165D931D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{535C9FDA-CC5A-4515-B101-BDDB165D931D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

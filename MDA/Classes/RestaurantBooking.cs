@@ -22,5 +22,6 @@ namespace MDA.Restaurant.Booking.Classes
         
         // пометка о том, что наша заявка просрочена
         public Guid? ExpirationId { get; set; }
+
     }
 }
