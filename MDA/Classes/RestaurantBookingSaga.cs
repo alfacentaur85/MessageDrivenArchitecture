@@ -29,16 +29,17 @@ namespace MDA.Restaurant.Booking.Classes
             CompositeEvent(() => BookingApproved,
                 x => x.ReadyEventStatus, KitchenReady, TableBooked);
 
-            Event(() => BookingRequestFault,
-                x =>
-                    x.CorrelateById(m => m.Message.Message.OrderId));
+            // Event(() => BookingRequestFault,
+            //     x => 
+            //         x.CorrelateById(m => m.Message.Message.OrderId)
+            //             .SelectId(m => m.Message.Message.OrderId));
 
-            Schedule(() => BookingExpired,
-                x => x.ExpirationId, x =>
-                {
-                    x.Delay = TimeSpan.FromSeconds(5);
-                    x.Received = e => e.CorrelateById(context => context.Message.OrderId);
-                });
+            // Schedule(() => BookingExpired,
+            //     x => x.ExpirationId, x =>
+            // {
+            //     x.Delay = TimeSpan.FromSeconds(5);
+            //     x.Received = e => e.CorrelateById(context => context.Message.OrderId);
+            // });
 
             Initially(
                 When(BookingRequested)
@@ -49,33 +50,31 @@ namespace MDA.Restaurant.Booking.Classes
                         context.Instance.ClientId = context.Data.ClientId;
                         Console.WriteLine("Saga: " + context.Data.CreationDate);
                     })
-                    .Schedule(BookingExpired,
-                        context => new BookingExpire(context.Instance),
-                        context => TimeSpan.FromSeconds(1))
+                    // .Schedule(BookingExpired, 
+                    //     context => new BookingExpire (context.Instance),
+                    //     context => TimeSpan.FromSeconds(100))
                     .TransitionTo(AwaitingBookingApproved)
             );
 
             During(AwaitingBookingApproved,
                 When(BookingApproved)
-                    .Unschedule(BookingExpired)
+                    // .Unschedule(BookingExpired)
                     .Publish(context =>
                         (INotify)new Notify(context.Instance.OrderId,
                             context.Instance.ClientId,
                             $"Стол успешно забронирован"))
-                    .Finalize(),
-
-                When(BookingRequestFault)
-                    .Then(context => Console.WriteLine($"Ошибочка вышла!"))
-                    .Publish(context => (INotify)new Notify(context.Instance.OrderId,
-                        context.Instance.ClientId,
-                        $"Приносим извинения, стол забронировать не получилось."))
-                    .Publish(context => (IBookingCancellation)
-                        new BookingCancellation(context.Data.Message.OrderId))
-                    .Finalize(),
-
-                When(BookingExpired.Received)
-                    .Then(context => Console.WriteLine($"Отмена заказа {context.Instance.OrderId}"))
                     .Finalize()
+
+            // When(BookingRequestFault)
+            //     .Then(context => Console.WriteLine($"Ошибочка вышла!"))
+            //     .Publish(context => (INotify) new Notify(context.Instance.OrderId,
+            //         context.Instance.ClientId,
+            //         $"Приносим извинения, стол забронировать не получилось."))
+            //     .Finalize(),
+
+            // When(BookingExpired.Received)
+            //     .Then(context => Console.WriteLine($"Отмена заказа {context.Instance.OrderId}"))
+            //     .Finalize()
             );
 
             SetCompletedWhenFinalized();
@@ -85,9 +84,9 @@ namespace MDA.Restaurant.Booking.Classes
         public Event<ITableBooked> TableBooked { get; private set; }
         public Event<IKitchenReady> KitchenReady { get; private set; }
 
-        public Event<Fault<IBookingRequest>> BookingRequestFault { get; private set; }
+        //      public Event<Fault<IBookingRequest>> BookingRequestFault { get; private set; }
 
-        public Schedule<RestaurantBooking, IBookingExpire> BookingExpired { get; private set; }
+        // public Schedule<RestaurantBooking, IBookingExpire> BookingExpired { get; private set; }
         public Event BookingApproved { get; private set; }
     }
 }
