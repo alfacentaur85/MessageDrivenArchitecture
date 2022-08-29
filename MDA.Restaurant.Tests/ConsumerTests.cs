@@ -1,17 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
 using MassTransit.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using MDA.Restaurant.Booking.Classes.Consumers;
-using MDA.Restaurant.Booking.Consumers;
-using MDA.Restaurant.Kitchen.Classes;
-using MDA.Restaurant.Kitchen.Classes.Consumers;
-using MDA.Restaurant.Messages;
-using MDA.Restaurant.Messages.InMemoryDb;
+using MDA.Restaurant.Messages.Classes;
+using MDA.Restaurant.Messages.Interfaces;
+using System.Linq;
 
 namespace MDA.Restaurant.Tests
 {
@@ -30,7 +26,7 @@ namespace MDA.Restaurant.Tests
                     cfg.AddConsumer<RestaurantBookingRequestConsumer>();
                 })
                 .AddLogging()
-                .AddTransient<Booking.Restaurant>()
+                .AddTransient<MDA.Restaurant.Booking.Classes.Restaurant>()
                 .AddSingleton<IInMemoryRepository<IBookingRequest>, InMemoryRepository<IBookingRequest>>()
                 .BuildServiceProvider(true);
 

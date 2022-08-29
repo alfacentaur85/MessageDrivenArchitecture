@@ -6,7 +6,7 @@ using MDA.Restaurant.Messages.Classes;
 
 namespace MDA.Restaurant.Kitchen.Classes
 {
-    internal class Manager
+    public class Manager
     {
         private readonly IBus _bus;
 
