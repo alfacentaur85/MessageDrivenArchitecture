@@ -6,6 +6,9 @@ using System;
 
 namespace MDA.Consumer
 {
+    /// <summary>
+    /// Worker
+    /// </summary>
     public class Worker: BackgroundService
     {
         private readonly Consumer _consumerBooking;

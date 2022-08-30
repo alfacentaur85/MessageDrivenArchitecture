@@ -3,7 +3,9 @@ using MDA.Restaurant.Messages.Enums;
 
 namespace MDA.Restaurant.Messages.Interfaces
 {
-   
+    /// <summary>
+    /// ITableBooked
+    /// </summary>
     public interface ITableBooked
     {
         public Guid OrderId { get; }

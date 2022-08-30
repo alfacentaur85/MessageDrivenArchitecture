@@ -2,6 +2,9 @@
 
 namespace MDA.Restaurant.Messages.Interfaces
 {
+    /// <summary>
+    /// INotify
+    /// </summary>
     public interface INotify
     {
         public Guid OrderId { get; }

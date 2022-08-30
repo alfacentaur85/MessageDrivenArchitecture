@@ -5,6 +5,9 @@ using RabbitMQ.Client.Events;
 
 namespace MDA.Consumer
 {
+    /// <summary>
+    /// Consumer
+    /// </summary>
     public class Consumer
     {
         private readonly ConnectionFactory _connectionFactory;

@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Security;
 using System.Text;
-using System.Threading.Tasks;
 using RabbitMQ.Client;
 
 namespace MDA.Producer
 {
+    /// <summary>
+    /// RabbitProducer
+    /// </summary>
     public class RabbitProducer
     {
         private readonly ConnectionFactory _connectionFactory;

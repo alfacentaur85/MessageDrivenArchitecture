@@ -5,6 +5,9 @@ using MDA.Restaurant.Notification.Enums;
 
 namespace MDA.Restaurant.Notification.Classes.Consumers
 {
+    /// <summary>
+    /// KitchenReadyConsumer
+    /// </summary>
     public class KitchenReadyConsumer : IConsumer<IKitchenReady>
     {
 

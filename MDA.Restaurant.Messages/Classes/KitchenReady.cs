@@ -3,7 +3,9 @@ using MDA.Restaurant.Messages.Interfaces;
 
 namespace MDA.Restaurant.Messages.Classes
 {
-    
+    /// <summary>
+    /// KitchenReady
+    /// </summary>
     public class KitchenReady : IKitchenReady
     {
         public KitchenReady(Guid orderId, bool ready)

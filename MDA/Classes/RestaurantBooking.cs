@@ -3,6 +3,9 @@ using MassTransit;
 
 namespace MDA.Restaurant.Booking.Classes
 {
+    /// <summary>
+    /// RestaurantBooking
+    /// </summary>
     public class RestaurantBooking : SagaStateMachineInstance
     {
         //идентификатор для соотнесения всех сообщений друг с другом
@@ -22,5 +25,6 @@ namespace MDA.Restaurant.Booking.Classes
         
         // пометка о том, что наша заявка просрочена
         public Guid? ExpirationId { get; set; }
+
     }
 }
