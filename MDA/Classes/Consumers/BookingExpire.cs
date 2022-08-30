@@ -2,6 +2,9 @@
 
 namespace MDA.Restaurant.Booking.Classes.Consumers
 {
+    /// <summary>
+    /// BookingExpire
+    /// </summary>
     public class BookingExpire : IBookingExpire
     {
         private readonly RestaurantBooking _instance;

@@ -4,9 +4,12 @@ using MDA.Restaurant.Messages.Interfaces;
 
 namespace MDA.Restaurant.Messages.Classes
 {
-   
+    /// <summary>
+    /// TableBooked
+    /// </summary>
     public class TableBooked : ITableBooked
     {
+
         public TableBooked(Guid orderId, Guid clientId, bool success, Dish? preOrder = null)
         {
             OrderId = orderId;

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MassTransit;
-using MDA.Restaurant.Notification;
 using MDA.Restaurant.Notification.Enums;
 using MDA.Restaurant.Messages.Interfaces;
 
 namespace MDA.Restaurant.Notification.Classes.Consumers
 {
+    /// <summary>
+    /// NotifierTableBookedConsumer
+    /// </summary>
     public class NotifierTableBookedConsumer : IConsumer<ITableBooked>
     {
         private readonly Notifier _notifier;

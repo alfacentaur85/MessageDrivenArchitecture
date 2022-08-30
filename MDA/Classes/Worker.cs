@@ -9,6 +9,9 @@ using MDA.Restaurant.Messages.Classes;
 
 namespace MDA.Restaurant.Booking.Classes
 {
+    /// <summary>
+    /// Worker
+    /// </summary>
     public class Worker : BackgroundService
     {
         private readonly IBus _bus;

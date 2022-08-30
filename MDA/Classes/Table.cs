@@ -76,6 +76,5 @@ namespace MDA.Restaurant.Booking.Classes
 
         private readonly object _lock = new object();
 
-
     }
 }

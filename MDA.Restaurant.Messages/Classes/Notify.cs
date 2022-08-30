@@ -4,6 +4,9 @@ using System;
 
 namespace MDA.Restaurant.Messages.Classes
 {
+    /// <summary>
+    /// Notify
+    /// </summary>
     public class Notify : INotify
     {
         public Notify(Guid orderId, Guid clientId, string message)

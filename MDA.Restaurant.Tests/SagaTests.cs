@@ -78,7 +78,7 @@ namespace MDA.Restaurant.Tests
             Assert.That(saga, Is.Not.Null);
             Assert.That(saga.ClientId, Is.EqualTo(clientId));
             Assert.That(await _harness.Published.Any<ITableBooked>());
-            // Assert.That(await _harness.Published.Any<IKitchenReady>());
+
             Assert.That(await _harness.Published.Any<INotify>());
             Assert.That(saga.CurrentState, Is.EqualTo(3));
 

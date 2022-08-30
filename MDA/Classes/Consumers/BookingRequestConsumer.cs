@@ -5,6 +5,9 @@ using MDA.Restaurant.Messages.Interfaces;
 
 namespace MDA.Restaurant.Booking.Classes.Consumers
 {
+    /// <summary>
+    /// RestaurantBookingRequestConsumer
+    /// </summary>
     public class RestaurantBookingRequestConsumer : IConsumer<IBookingRequest>
     {
         private readonly MDA.Restaurant.Booking.Classes.Restaurant _restaurant;

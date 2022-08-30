@@ -5,6 +5,9 @@ using System;
 
 namespace MDA.Restaurant.Messages.Classes
 {
+    /// <summary>
+    /// BookingRequest
+    /// </summary>
     public class BookingRequest : IBookingRequest
     {
         public BookingRequest(Guid orderId, Guid clientId, Dish? preOrder, DateTime creationDate)

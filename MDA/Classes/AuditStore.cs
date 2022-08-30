@@ -6,6 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace MDA.Restaurant.Booking.Classes
 {
+    /// <summary>
+    /// AuditStore
+    /// </summary>
     public class AuditStore : IMessageAuditStore
     {
         private readonly ILogger _logger;

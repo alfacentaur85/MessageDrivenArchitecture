@@ -1,11 +1,13 @@
 ﻿using System.Threading.Tasks;
 using MassTransit;
 using MDA.Restaurant.Messages.Interfaces;
-using System;
 using MDA.Restaurant.Messages.Classes;
 
 namespace MDA.Restaurant.Kitchen.Classes.Consumers
 {
+    /// <summary>
+    /// KitchenBookingRequestedConsumer
+    /// </summary>
     public class KitchenBookingRequestedConsumer : IConsumer<IBookingRequest>
     {
         private readonly Manager _manager;

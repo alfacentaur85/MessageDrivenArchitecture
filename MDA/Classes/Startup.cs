@@ -11,6 +11,9 @@ using Prometheus;
 
 namespace MDA.Restaurant.Booking.Classes 
 {
+    /// <summary>
+    /// Startup
+    /// </summary>
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)

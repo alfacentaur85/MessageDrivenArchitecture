@@ -1,11 +1,12 @@
 ﻿using System;
 using MassTransit;
 using MDA.Restaurant.Messages.Enums;
-using MDA.Restaurant.Messages.Interfaces;
-using MDA.Restaurant.Messages.Classes;
 
 namespace MDA.Restaurant.Kitchen.Classes
 {
+    /// <summary>
+    /// Manager
+    /// </summary>
     public class Manager
     {
         private readonly IBus _bus;

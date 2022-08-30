@@ -31,7 +31,6 @@ namespace MDA.Restaurant.Booking.Classes
                 });
             });
             
-
             CreateHostBuilder(args).Build().Run();
               
         }

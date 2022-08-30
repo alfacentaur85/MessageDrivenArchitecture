@@ -4,6 +4,9 @@ using MDA.Restaurant.Messages.Enums;
 
 namespace MDA.Restaurant.Booking.Classes
 {
+    /// <summary>
+    /// BookingRequestModel
+    /// </summary>
     public class BookingRequestModel
     {
         public BookingRequestModel(Guid orderId, Guid clientId, Dish? preOrder, DateTime creationDate, string messageId)
